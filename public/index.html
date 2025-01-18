@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mendix Bulk Delete Tool</title>
+  <link rel="stylesheet" href="/public/css/styles.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+
+</head>
+<body>
+  <nav class="menu-bar">
+    <ul>
+        <li><a href="#home" id="home-tab">Home</a></li>
+        <li><a href="#data" id="data-tab">Data</a></li>
+        <li><a href="#instructions" id="instructions-tab">Instructions</a></li>
+    </ul>
+</nav>
+
+<div id="content">
+  <section id="home" class="active-section">
+    <h1>Mendix Bulk Item Delete Tool</h1>
+    <div class="container">
+      <!-- Row 1 -->
+      <div class="row">
+        <!-- Left Column: Form -->
+        <div class="column form-container">
+          <form id="unused-items-form">        
+            
+    
+            <select id="appDropdown" onchange="handleAppSelection()">
+              <option value="">Select an Application</option>
+          </select>
+          <input type="text" id="appId" placeholder="App ID" readonly />
+
+          <label for="branchName">Branch Name:</label>
+          <div style="position: relative; width: 100%; max-width: 400px; margin-bottom: 20px;">
+            <input type="text" id="branchName" oninput="showRecentBranches()" placeholder="Enter Branch Name" />
+            <ul id="branchSuggestions" style="display: none;"></ul>
+        </div>
+           
+            <div id="bulk-upload-section">
+              <label for="csvUpload">Upload CSV:</label>
+              <input type="file" id="csvUpload" name="csvUpload" accept=".csv">
+            </div>
+    
+            <button type="button" id="submit-btn">Upload</button>
+            <button type="button" id="delete-all-btn" class="delete-button hidden">Delete</button>
+            <div id="loading-icon" style="display: none;">
+              <i class="fa fa-spinner fa-spin fa-3x"></i>
+              <p>Processing your file...</p>
+            </div>
+          
+          </form>
+        </div>
+    
+        <!-- Right Column: Logs -->
+        <div class="column logs-container">
+          <h2>Logs</h2>
+          <pre id="general-logs" >Awaiting action...</pre>
+          <button class="download-button" id="download-logs">Download Logs</button>
+          </div>
+    
+          
+   
+          
+        </div>
+      <!-- Row 2: Preview -->
+       <div class="row">
+      <div id="preview-container" class="preview-container hidden">
+        <h3>Item Preview</h3>
+        <table id="preview-table">
+            <thead>
+                <tr>
+                    <th>Module Name</th>
+                    <th>Item Name</th>
+                    <th>Item Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+  </div>
+    
+
+    
+    </div>
+
+  </section>
+
+  <section id="data" class="hidden-section">
+    <h1>Data Management</h1>
+    <div class="container">
+      <div class="row">
+        <div class="column form-container">
+          <!-- Application Management Section -->
+          <div id="appManagement">
+            <h2>Application Management</h2>
+            <form id="add-app-form" class="inline-form">
+              <input type="text" id="appNameInput" placeholder="App Name" required />
+              <input type="text" id="appIdInput" placeholder="App ID" required />
+              <button type="submit">Add</button>
+            </form>
+            <table id="appTable" class="bordered striped">
+              <thead>
+                <tr>
+                  <th data-sort="name">App Name ▲▼</th>
+                  <th data-sort="id">App ID ▲▼</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Dynamically filled -->
+              </tbody>
+            </table>
+          </div>
+  
+          <!-- Excluded Modules Section -->
+          <div id="excludedmodules-management">
+          <h2>Excluded Modules</h2>
+          <form id="add-module-form" class="inline-form">
+            <input type="text" id="new-module" placeholder="Module Name" required />
+            <button type="submit">Add</button>
+          </form>
+          <table id="excludedModulesTable" class="bordered striped">
+            <thead>
+              <tr>
+                <th data-sort="module">Module Name ▲▼</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Dynamically filled -->
+            </tbody>
+          </table>
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+  <section id="instructions" class="hidden-section">
+      <h1>Instructions</h1>
+      <div class="container">
+        <div class="row">
+      <div class="column form-container">      
+        <h2>Prerequisites</h2>
+        <ol>
+        <li><a href="https://www.loom.com/share/7bcac23225a64e27b710712b57c23b04" target="_blank">Video Demo </a></li>
+        </ol>
+          <h2>Prerequisites</h2>
+          <ol>
+            <li>
+              <strong>Mendix Personal Access Token (PAT):</strong>
+              <ul>
+                <li>Create a PAT from your Mendix account.</li>
+                <li>Configure it as an environmental variable on your operating system:</li>
+                <ul>
+                  <li><strong>Variable Name:</strong> <code>MENDIX_TOKEN</code></li>
+                </ul>
+                <li>This token is essential for authentication and connecting with your Mendix apps.</li>
+              </ul>
+            </li>
+          </ol>
+        
+          <h2>Steps to Clean Up Unused Items</h2>
+        
+          <h3>1. Search for Unused Items</h3>
+          <ul>
+            <li>Open <strong>Mendix Studio Pro</strong> and navigate to the <strong>Find Advanced</strong> tool.</li>
+            <li>Select <strong>Unused Items</strong> from the dropdown. (See the screenshot below.)</li>
+            <li>
+              <strong>TIP:</strong> Be sure to "mark as used" (Properties in studio pro) for all items that you want to keep, such as:
+              <ul>
+                <li>Microflows called from Java actions.</li>
+                <li>Items selected at runtime (e.g., document generation, parsing configurations).</li>
+                <li>Example files, marketplace modules, or generic README files.</li>
+              </ul>
+            </li>
+          </ul>
+        
+          <h3>2. Export the Results</h3>
+          <ul>
+            <li>After identifying unused items, click the <strong>Export</strong> button to save the results to a CSV file.</li>
+            <li>This file will be used in the cleanup tool. (See the screenshot below.)</li>
+          </ul>
+        
+          <h3>3. Add Your Mendix App</h3>
+          <ul>
+            <li>Add your app using the <strong>App ID</strong> found in the Mendix portal.</li>
+            <li>Ensure your app is registered for proper cleanup operations.</li>
+          </ul>
+
+          <h3>4. Optional: Add excluded modules</h3>
+          <ul>
+            <li>Add a list of modules you want to exclude from the cleanup process on the Data page.</li>
+            <li>The data in the CSV will be skipped and a message will be logged of items excluded.</li>
+          </ul>
+        
+          <h3>5. Select a Branch</h3>
+          <ul>
+            <li>Choose the branch line where you want to clean up:</li>
+            <ul>
+              <li>Enter the branch name or use <code>main</code>.</li>
+              <li><strong>Recommendation:</strong> Create a new branch line specifically for cleanup operations.</li>
+            </ul>
+          </ul>
+        
+          <h3>6. Upload the CSV File</h3>
+          <ul>
+            <li>Upload the CSV file exported from Mendix Studio Pro.</li>
+          </ul>
+        
+          <h3>7. Delete the Items</h3>
+          <ul>
+            <li>Click <strong>Delete</strong> to start the cleanup process.</li>
+            <li>The tool will perform the following actions:
+              <ul>
+                <li>Create a working copy of your project.</li>
+                <li>Delete the specified unused items.</li>
+                <li>Commit the changes back to the branch.</li>
+              </ul>
+            </li>
+          </ul>
+        
+          <h2>Important Notes</h2>
+          <ul>
+            <li><strong>Runtime Configurations:</strong> Carefully review and mark as used any items that are essential for runtime functionality but not referenced in the model.</li>
+            <li><strong>Branch Line Usage:</strong> Using a separate branch for cleanup ensures that the main branch remains unaffected if issues arise.</li>
+            <li><strong>Log File:</strong> The tool provides a detailed log of the operations performed, including:
+              <ul>
+                <li>Working copy creation.</li>
+                <li>Deleted items.</li>
+                <li>Commit status.</li>
+              </ul>
+            </li>
+          </ul>
+        
+          <h2>Screenshots for Reference</h2>
+          <div class="screenshot">
+            <h3>Find Advanced Tool in Mendix Studio Pro</h3>
+            <img src="/public/unuseditems.jpg" alt="Find Advanced Tool Screenshot" />
+          </div>
+          <div class="screenshot">
+            <h3>Export Results in Mendix Studio Pro</h3>
+            <img src="/public/export.jpg" alt="Export Results Screenshot" />
+          </div>  
+          
+          <h2>Other Resources</h2>
+          <ul>
+            <li><strong>MPR Analyze:</strong> Use the Mendix CLI tool mpr-analyze to get more information on what objects/modules are using the most space. <a href="https://docs.mendix.com/refguide/mx-command-line-tool/analyze-mpr/" target="_blank">link</a></li>
+<li><strong>Database Compact:</strong> Use DB Browser SQL Lite to compact your database after changes to realize the size reduction. <a href="https://sqlitebrowser.org/" target="_blank">link</a></li>
+<li><strong>Supported Item Types</strong>
+  <ul>
+    <li>microflow</li>
+    <li>nanoflow</li>
+    <li>page</li>
+    <li>constant</li>
+    <li>enumeration</li>
+    <li>exportmapping</li>
+    <li>imagecollection</li>
+    <li>importmapping</li>
+    <li>javaaction</li>
+    <li>javascriptaction</li>
+    <li>jsonstructure</li>
+    <li>layout</li>
+    <li>menu</li>
+    <li>regularexpression</li>
+    <li>rule</li>
+    <li>snippet</li>
+  </ul>
+  
+</li>
+          </ul>
+      </div>
+      </div>
+    </div>
+  </section>
+</div>
+<script src="/public/js/menu.js"></script>
+<script src="/public/js/previewtable.js"></script>
+<script src="/public/js/datamanagement.js"></script>
+<script src="/public/js/messages.js"></script>
+<script src="/public/js/suggestions.js"></script>
+<script src="/public/js/utilities.js"></script>
+</body>
+</html>

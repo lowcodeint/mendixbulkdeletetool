@@ -1,0 +1,493 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+}
+
+h1 {
+  text-align: center;
+  margin: 20px 0;
+  color: #333;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.form-container, .logs-container, .preview-container,
+.output-container {
+  flex: 1;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  font-size: 1rem;
+  margin-bottom: 0.5rem; /* Space between label and input element */
+}
+
+input, select, button {
+  width: 100%; /* Ensure input fields stretch to fit the container width */
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+.delete-button {
+  background-color: red;
+  color: white; /* Ensure the text is readable on a red background */
+  border: none; /* Remove the default border */
+  padding: 10px 15px; /* Add some padding for a better look */
+  border-radius: 5px; /* Optional: Add rounded corners */
+  font-size: 16px; /* Optional: Adjust font size */
+  cursor: pointer; /* Show a pointer cursor on hover */
+  transition: background-color 0.3s ease; /* Add a smooth hover effect */
+}
+
+.delete-button:hover {
+  background-color: darkred; /* Darken the red on hover */
+}
+
+
+fieldset {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+legend {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.spaced-section {
+  margin-top: 15px;
+}
+
+select {
+  appearance: none;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+select:focus {
+  border-color: #007bff;
+}
+
+.output-container pre {
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 4px;
+  overflow: auto;
+  height: 300px;
+  border: 1px solid #ddd;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  white-space: pre-wrap; /* Ensure logs wrap if they are long */
+  word-wrap: break-word;
+}
+
+.radio-container {
+  display: grid;
+  gap: 10px; /* Space between radio items */
+}
+
+.radio-item {
+  display: flex;
+  align-items: center; /* Align items vertically */
+}
+
+.radio-item label {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between label text and radio button */
+}
+
+.radio-item span {
+  white-space: nowrap; /* Prevent wrapping of label text */
+}
+
+
+
+
+
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin:0 auto;
+  width:1800px;
+}
+
+.row {
+  margin:0 auto;
+  display: flex;
+  gap: 2rem;
+}
+
+.column {
+  flex: 1;
+  width:860px;
+}
+
+.preview-container {
+  width: 1750px;
+  background-color: #fff;
+  margin:0 auto;
+  padding:10px;
+  display:flex;
+	flex-flow: column wrap;
+	justify-content: start;
+  gap:0.25rem;
+}
+
+#preview-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#preview-table th, #preview-table td {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.hidden {
+  display: none;
+}
+
+.key {
+  color: #c00; /* Red for keys */
+  font-weight: bold;
+}
+.string {
+  color: #090; /* Green for strings */
+}
+.number {
+  color: #00f; /* Blue for numbers */
+}
+.boolean {
+  color: #a80; /* Orange for booleans */
+}
+.null {
+  color: #808; /* Purple for null */
+}
+pre {
+  background-color: #f9f9f9; /* Light gray background */
+  border: 1px solid #ccc;    /* Gray border */
+  padding: 10px;             /* Padding for spacing */
+  white-space: pre-wrap;     /* Ensure wrapping */
+  font-family: monospace;    /* Monospace font for JSON */
+  overflow-y: auto;          /* Scrollable if content overflows */
+  max-height: 300px;         /* Limit the height */
+}
+
+.menu-bar {
+  background-color: #333;
+  padding: 0.5em 0;
+  margin: 0;
+}
+
+.menu-bar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.menu-bar ul li {
+  margin: 0 1em;
+}
+
+.menu-bar ul li a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.2em;
+  padding: 0.5em 1em;
+  display: block;
+}
+
+.menu-bar ul li a:hover {
+  background-color: #575757;
+  border-radius: 5px;
+}
+.menu-bar ul li a.active-tab {
+  background-color: #575757;
+  border-radius: 5px;
+  font-weight: bold;
+}
+/* Hide non-active sections */
+.hidden-section {
+  display: none;
+}
+
+.active-section {
+  display: block;
+}
+
+
+#branchSuggestions {
+  position: absolute; /* Position relative to the input */
+  background-color: white;
+  z-index: 1000; /* Ensure it appears on top of other elements */
+  width: 100%; /* Match input width */
+  border: 2px solid #007bff; /* Blue border for attention */
+  border-radius: 4px;
+  padding: 0; /* Remove unnecessary padding around the list */
+  list-style: none; /* Remove bullets */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+  max-height: 200px; /* Increase height for better visibility */
+  font-size: 14px; /* Adjust font size for readability */
+}
+
+#branchSuggestions li {
+  display: flex; /* Use flexbox for alignment */
+  justify-content: space-between; /* Place text on the left and button on the right */
+  align-items: center; /* Vertically align items */
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s; /* Smooth hover effect */
+}
+
+#branchSuggestions li span {
+  flex-grow: 1; /* Allow span to take up available space */
+  text-align: left; /* Align text to the left */
+  white-space: nowrap; /* Prevent wrapping */
+  text-overflow: ellipsis; /* Add ellipsis for long text */
+  display: inline-block; /* Ensure inline content for proper rendering */
+}
+
+#branchSuggestions li:hover {
+  background-color: #007bff; /* Highlight background */
+  color: white; /* Highlight text */
+}
+
+#branchSuggestions li:active {
+  background-color: #0056b3; /* Darker blue for active state */
+}
+
+#branchSuggestions li button {
+  flex-shrink: 0; /* Prevent the button from shrinking */
+  background: none;
+  border: none;
+  color: red;
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 10px; /* Add space between text and button */
+  transition: color 0.2s; /* Smooth hover effect */
+  width:10px;
+}
+
+#branchSuggestions li button:hover {
+  color: darkred; /* Change color on hover */
+}
+
+#instructions {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 20px;
+}
+#instructions h1, #instructions h2, #instructions h3 {
+  color: #4CAF50;
+}
+#instructions ul, #instructions ol {
+  margin-left: 20px;
+}
+#instructions ul li, #instructions ol li {
+  margin-bottom: 10px;
+}
+.screenshot img {
+  max-width: 100%;
+  border: 1px solid #ccc;
+  margin: 10px 0;
+}
+
+#excluded-modules-section {
+  margin-top: 20px;
+}
+
+#excluded-modules-list {
+  list-style: none;
+  padding: 0;
+}
+
+#excluded-modules-list li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+#excluded-modules-list li button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+table.bordered th, table.bordered td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+table.striped tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+/* Action Buttons */
+button.action-button {
+  background: none;
+  border: none;
+  padding: 5px 10px;
+  margin: 0 5px;
+  cursor: pointer;
+  font-size: 14px;
+  display: inline-block;
+}
+
+button.action-button i {
+  color: #007bff;
+  transition: color 0.2s;
+}
+
+button.action-button:hover i {
+  color: #0056b3;
+}
+
+/* Inline Form */
+.inline-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+/* Sortable Columns */
+th[data-sort] {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.action-buttons {
+  display: flex; /* Use flexbox for left-to-right alignment */
+  justify-content: flex-start; /* Align buttons to the left */
+  gap: 10px; /* Add space between buttons */
+}
+
+.action-button {
+  background: none;
+  border: none;
+  padding: 5px 10px;
+  margin: 0;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center; /* Vertically align icons within buttons */
+}
+
+.action-button i {
+  color: #555;
+}
+
+.action-button:hover i {
+  color: #007bff; /* Highlight color on hover */
+}
+
+.edit-button i {
+  color: #28a745; /* Green for edit */
+}
+
+.edit-button:hover i {
+  color: #218838; /* Darker green on hover */
+}
+
+.delete-button i {
+  color: #dc3545; /* Red for delete */
+}
+
+.delete-button:hover i {
+  color: #c82333; /* Darker red on hover */
+}
+
+#loading-icon {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.9); /* Light background for contrast */
+  padding: 20px 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+#loading-icon i {
+  color: #007bff; /* Optional: match your theme color */
+  margin-bottom: 10px;
+}
+
+#filter-list {
+  list-style: none;
+  padding: 0;
+}
+
+#filter-list li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+#filter-list li button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+}
